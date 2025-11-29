@@ -7,3 +7,13 @@ services:
     environment:
       - ENVIRONMENT=development
     restart: unless-stopped
+  
+  bid-app-staging:
+    image: ghcr.io/mahanthlbs/bid-system:staging-latest
+    container_name: bid-app-staging
+    ports:
+      - "8001:8000"
+    environment:
+      - ENVIRONMENT=staging
+    restart: unless-stopped
+  
