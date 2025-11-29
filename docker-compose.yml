@@ -17,3 +17,11 @@ services:
       - ENVIRONMENT=staging
     restart: unless-stopped
   
+  bid-app-prod:
+    image: ghcr.io/mahanthlbs/bid-system:prod-latest
+    container_name: bid-app-prod
+    ports:
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=production
+    restart: unless-stopped
