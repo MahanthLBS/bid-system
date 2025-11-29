@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+  bid-app-dev:
+    build: .
+    container_name: bid-app-dev
+    ports: ["8002:8000"]
+    environment:
+      - ENVIRONMENT=development
+    restart: unless-stopped

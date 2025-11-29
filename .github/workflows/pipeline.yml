@@ -1,0 +1,8 @@
+# placeholder pipeline - real pipeline added later
+name: CI placeholder
+on: [push]
+jobs:
+  placeholder:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "CI pipeline placeholder"
