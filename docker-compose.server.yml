@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  bid-app-prod:
+    image: ghcr.io/mahanthlbs/bid-system:prod-latest
+    container_name: bid-app-prod
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+
+  bid-app-staging:
+    image: ghcr.io/mahanthlbs/bid-system:staging-latest
+    container_name: bid-app-staging
+    ports:
+      - "8001:8000"
+    restart: unless-stopped
+
+  bid-app-dev:
+    image: ghcr.io/mahanthlbs/bid-system:dev-latest
+    container_name: bid-app-dev
+    ports:
+      - "8002:8000"
+    restart: unless-stopped
+
+  watchtower:
+    image: containrrr/watchtower
+    container_name: bid-watchtower
+    volumes:version: '3.8'
+
+services:
+  bid-app-prod:
+    image: ghcr.io/mahanthlbs/bid-system:prod-latest
+    container_name: bid-app-prod
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+
+  bid-app-staging:
+    image: ghcr.io/mahanthlbs/bid-system:staging-latest
+    container_name: bid-app-staging
+    ports:
+      - "8001:8000"
+    restart: unless-stopped
+
+  bid-app-dev:
+    image: ghcr.io/mahanthlbs/bid-system:dev-latest
+    container_name: bid-app-dev
+    ports:
+      - "8002:8000"
+    restart: unless-stopped
+
+  watchtower:
+    image: containrrr/watchtower
+    container_name: bid-watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 30
+    restart: unless-stopped
