@@ -1,0 +1,59 @@
+name: BID CI Pipeline
+
+on:
+  push:
+    branches: [main, develop, feature/**]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install pytest black flake8
+
+      - name: Lint code
+        run: |
+          black --check src/
+          flake8 src/
+
+      - name: Run tests
+        run: pytest -q || true     # no tests yet → not failing pipeline
+
+      - name: Log in to GHCR
+        run: echo "${{ secrets.CR_PAT }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Build Docker image
+        run: |
+          IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/bid-system
+          docker build -t $IMAGE_NAME:${{ github.sha }} .
+
+      - name: Push image to GHCR
+        run: |
+          IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/bid-system
+          docker push $IMAGE_NAME:${{ github.sha }}
+
+          # Tag dev/staging/prod (we will use this later)
+          if [[ "${GITHUB_REF}" == "refs/heads/develop" ]]; then
+            docker tag $IMAGE_NAME:${GITHUB_SHA} $IMAGE_NAME:dev-latest
+            docker push $IMAGE_NAME:dev-latest
+          fi
+
+          if [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
+            docker tag $IMAGE_NAME:${GITHUB_SHA} $IMAGE_NAME:prod-latest
+            docker push $IMAGE_NAME:prod-latest
+          fi
+
+          # staging tagging will be added when staging branch exists
