@@ -28,6 +28,7 @@
     "appId": "com.bid.system",
     "productName": "BID System",
     "asar": true,
+    "publish": "never",
     "directories": {
       "output": "dist"
     },
