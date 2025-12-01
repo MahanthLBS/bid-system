@@ -1,5 +1,4 @@
 node_modules/
-dist/
-desktop-build.yml
 *.log
+dist/
 .DS_Store
