@@ -5,9 +5,9 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "dist:win": "electron-builder --win",
-    "dist:linux": "electron-builder --linux AppImage",
-    "dist:all": "electron-builder --win --linux"
+    "dist:win": "electron-builder --win --publish never",
+    "dist:linux": "electron-builder --linux AppImage --publish never",
+    "dist:all": "electron-builder --win --linux --publish never"
   },
   "repository": {
     "type": "git",
@@ -28,7 +28,7 @@
     "appId": "com.bid.system",
     "productName": "BID System",
     "asar": true,
-    "publish": [],
+    "publish": null,  
     "directories": {
       "output": "dist"
     },
