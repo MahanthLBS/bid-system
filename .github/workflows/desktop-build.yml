@@ -1,0 +1,66 @@
+name: Build Desktop Apps (Linux + Windows)
+
+on:
+  push:
+    branches: [ main, develop, staging ]
+  workflow_dispatch:
+
+# Shared caching speeds up builds massively
+# (Electron downloads, npm node_modules, etc)
+env:
+  ELECTRON_CACHE: ~/.cache/electron
+  ELECTRON_BUILDER_CACHE: ~/.cache/electron-builder
+
+jobs:
+
+  # -------------------------------
+  # 🔵 LINUX APPIMAGE BUILD
+  # -------------------------------
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Linux AppImage
+        run: npm run dist:linux
+
+      - name: Upload Linux AppImage
+        uses: actions/upload-artifact@v4
+        with:
+          name: bid-linux-appimage
+          path: dist/*.AppImage
+
+  # -------------------------------
+  # 🟦 WINDOWS EXE BUILD
+  # -------------------------------
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Windows Installer (.exe)
+        run: npm run dist:win
+
+      - name: Upload EXE Installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: bid-windows-installer
+          path: dist/*.exe

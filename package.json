@@ -1,0 +1,49 @@
+{
+  "name": "bid-desktop",
+  "version": "1.0.0",
+  "description": "Desktop app for BID System (Electron wrapper for web UI)",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist:win": "electron-builder --win",
+    "dist:linux": "electron-builder --linux AppImage",
+    "dist:all": "electron-builder --win --linux"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MahanthLBS/bid-system.git"
+  },
+  "keywords": ["electron", "desktop", "bid", "vfx", "pipeline"],
+  "author": "Mahanth LBS",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MahanthLBS/bid-system/issues"
+  },
+  "homepage": "https://github.com/MahanthLBS/bid-system#readme",
+  "devDependencies": {
+    "electron": "^39.2.4",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.bid.system",
+    "productName": "BID System",
+    "asar": true,
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "**/*"
+    ],
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "category": "Utility"
+    }
+  }
+}
